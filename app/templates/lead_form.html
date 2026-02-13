@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Tell us about your project</h2>
+  <p>Answer a few questions so we can understand if we're a good fit and how we can help.</p>
+  <form id="lead-form" action="/submit" method="post" class="lead-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="full_name">Full name *</label>
+        <input type="text" id="full_name" name="full_name" required minlength="2">
+      </div>
+      <div class="form-group">
+        <label for="email">Work email *</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company">
+      </div>
+      <div class="form-group">
+        <label for="website">Company website</label>
+        <input type="url" id="website" name="website">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone (optional)</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+      <div class="form-group">
+        <label for="budget">Estimated budget</label>
+        <select id="budget" name="budget">
+          <option value="">Select...</option>
+          <option value="<5k">&lt; $5k</option>
+          <option value="5-15k">$5k - $15k</option>
+          <option value="15-50k">$15k - $50k</option>
+          <option value=">50k">&gt; $50k</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="timeline">Ideal start timeline</label>
+        <select id="timeline" name="timeline">
+          <option value="">Select...</option>
+          <option value="asap">ASAP (0-4 weeks)</option>
+          <option value="1-3months">1-3 months</option>
+          <option value="3-6months">3-6 months</option>
+          <option value=">6months">&gt; 6 months</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="use_case">What are you hoping this AI automation will do for your business? *</label>
+      <textarea id="use_case" name="use_case" rows="5" required minlength="10"></textarea>
+    </div>
+    <input type="hidden" name="source" value="website">
+    <button type="submit" class="btn-primary" id="submit-btn">Submit</button>
+    <p class="form-help">We’ll review your project and respond within 1 business day.</p>
+  </form>
+</section>
+{% endblock %}

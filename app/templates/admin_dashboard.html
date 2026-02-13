@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Lead Dashboard</h2>
+  <form method="get" class="filters">
+    <div class="form-group">
+      <label for="min_score">Min AI score</label>
+      <input id="min_score" name="min_score" type="number" min="0" max="100" value="{{ min_score }}">
+    </div>
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select id="priority" name="priority">
+        <option value="" {% if not priority %}selected{% endif %}>Any</option>
+        <option value="high" {% if priority == 'high' %}selected{% endif %}>High</option>
+        <option value="medium" {% if priority == 'medium' %}selected{% endif %}>Medium</option>
+        <option value="low" {% if priority == 'low' %}selected{% endif %}>Low</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-secondary">Apply</button>
+  </form>
+  <div class="table-wrapper">
+    <table class="leads-table">
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>Name</th>
+          <th>Company</th>
+          <th>Email</th>
+          <th>Score</th>
+          <th>Priority</th>
+          <th>Disqualified</th>
+          <th>Budget</th>
+          <th>Timeline</th>
+          <th>Use case</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lead in leads %}
+        <tr>
+          <td>{{ lead.id }}</td>
+          <td>{{ lead.full_name }}</td>
+          <td>{{ lead.company or '' }}</td>
+          <td>{{ lead.email }}</td>
+          <td>{{ lead.ai_score or '' }}</td>
+          <td>{{ lead.ai_priority or '' }}</td>
+          <td>{{ 'Yes' if lead.ai_disqualified else 'No' }}</td>
+          <td>{{ lead.budget or '' }}</td>
+          <td>{{ lead.timeline or '' }}</td>
+          <td class="use-case">{{ lead.ai_summary or lead.use_case }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

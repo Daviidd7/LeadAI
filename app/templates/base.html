@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title if title else "AI Lead Qualifier" }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/static/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="container">
+      <h1 class="logo">AI Lead Qualifier</h1>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; {{ 2026 }} AI Lead Qualifier</p>
+    </div>
+  </footer>
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

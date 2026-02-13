@@ -1,0 +1,5 @@
+Alembic migration environment for AI Lead Qualifier.
+Run:
+  alembic upgrade head
+  alembic downgrade -1
+as needed.
