@@ -4,25 +4,25 @@ import os
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import Field
+from dotenv import load_dotenv  # Load .env at module import time
+from pydantic import Field, ValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-def get_env_file():
-    """Return .env path only if it exists locally (development)."""
-    env_path = ".env"
-    return env_path if os.path.exists(env_path) else None
+# Load .env file if it exists (development environment)
+# This populates os.environ before Pydantic tries to read it
+if os.path.exists(".env"):
+    load_dotenv(".env")
 
 
 class Settings(BaseSettings):
     """Settings loaded from environment variables (Railway) or .env (development)."""
     
     model_config = SettingsConfigDict(
-        # Only load .env in development (when file exists locally)
-        env_file=get_env_file(),
+        # Don't try to load .env file - we already did above
+        env_file=None,
         env_file_encoding="utf-8",
         extra="ignore",
-        case_sensitive=False,  # Match SECRET_KEY to secret_key, etc.
     )
 
     # Application
