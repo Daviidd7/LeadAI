@@ -1,0 +1,65 @@
+services:
+  - type: web
+    name: leadai
+    runtime: docker
+    region: oregon
+    plan: free
+    
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_NAME
+        value: AI Lead Qualifier
+      - key: APP_HOST
+        value: 0.0.0.0
+      - key: APP_PORT
+        value: 8000
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      
+      # These require manual input
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM_EMAIL
+        sync: false
+      - key: LEAD_NOTIFICATION_EMAIL
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: TWILIO_SALES_NUMBER
+        sync: false
+      - key: CRM_BASE_URL
+        sync: false
+      - key: CRM_API_KEY
+        sync: false
+      - key: CRM_PIPELINE_ID
+        value: default
+      - key: RATE_LIMIT_REQUESTS_PER_MINUTE
+        value: 30
+
+  - type: pserv
+    name: leadai-postgres
+    runtime: postgres15
+    region: oregon
+    plan: free
+    ipAllowList: []
