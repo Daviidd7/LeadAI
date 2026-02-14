@@ -1,13 +1,28 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def _get_config_dict() -> dict:
+    """Return the appropriate SettingsConfigDict based on .env presence."""
+    env_file_exists = Path(".env").exists()
+    config = {
+        "extra": "ignore",
+        "case_sensitive": False,
+    }
+    if env_file_exists:
+        config["env_file"] = ".env"
+        config["env_file_encoding"] = "utf-8"
+    return config
+
+
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    """Settings loaded from .env (development) or environment variables (production)."""
+    model_config = SettingsConfigDict(**_get_config_dict())
 
     app_env: str = "development"
     app_name: str = "AI Lead Qualifier"
