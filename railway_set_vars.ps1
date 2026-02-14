@@ -61,7 +61,8 @@ foreach ($key in $envVars.Keys) {
         & railway variables set "$key=$value" 2>&1 | Out-Null
         Write-Host " ✓" -ForegroundColor Green
         $count++
-    } catch {
+    }
+    catch {
         Write-Host " ✗" -ForegroundColor Red
         Write-Error "Failed to set $key : $_"
         $failed++
