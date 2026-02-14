@@ -4,62 +4,59 @@ import os
 from functools import lru_cache
 from typing import Optional
 
-from dotenv import load_dotenv  # Load .env at module import time
-from pydantic import Field, ValidationError
+from dotenv import load_dotenv
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-# Load .env file if it exists (development environment)
-# This populates os.environ before Pydantic tries to read it
+# Load .env file if it exists locally
 if os.path.exists(".env"):
     load_dotenv(".env")
 
 
 class Settings(BaseSettings):
-    """Settings loaded from environment variables (Railway) or .env (development)."""
+    """Settings loaded from environment variables."""
     
     model_config = SettingsConfigDict(
-        # Don't try to load .env file - we already did above
         env_file=None,
-        env_file_encoding="utf-8",
         extra="ignore",
     )
 
     # Application
-    app_env: str = Field(default="development")
-    app_name: str = Field(default="AI Lead Qualifier")
-    app_host: str = Field(default="0.0.0.0")
-    app_port: int = Field(default=8000)
+    app_env: str = Field(default="development", validation_alias="APP_ENV")
+    app_name: str = Field(default="AI Lead Qualifier", validation_alias="APP_NAME")
+    app_host: str = Field(default="0.0.0.0", validation_alias="APP_HOST")
+    app_port: int = Field(default=8000, validation_alias="APP_PORT")
 
-    # Required - MUST be provided via environment or .env
-    secret_key: str
-    admin_username: str
-    admin_password: str
-    database_url: str
-    openai_api_key: str
-    openai_model: str = Field(default="gpt-4o-mini")
+    # Required
+    secret_key: str = Field(validation_alias="SECRET_KEY")
+    admin_username: str = Field(validation_alias="ADMIN_USERNAME")
+    admin_password: str = Field(validation_alias="ADMIN_PASSWORD")
+    database_url: str = Field(validation_alias="DATABASE_URL")
+    openai_api_key: str = Field(validation_alias="OPENAI_API_KEY")
+    openai_model: str = Field(default="gpt-4o-mini", validation_alias="OPENAI_MODEL")
 
     # SMTP
-    smtp_host: str
-    smtp_port: int = Field(default=587)
-    smtp_username: str
-    smtp_password: str
-    smtp_from_email: str
-    lead_notification_email: str
+    smtp_host: str = Field(validation_alias="SMTP_HOST")
+    smtp_port: int = Field(default=587, validation_alias="SMTP_PORT")
+    smtp_username: str = Field(validation_alias="SMTP_USERNAME")
+    smtp_password: str = Field(validation_alias="SMTP_PASSWORD")
+    smtp_from_email: str = Field(validation_alias="SMTP_FROM_EMAIL")
+    lead_notification_email: str = Field(validation_alias="LEAD_NOTIFICATION_EMAIL")
 
     # Twilio (Optional)
-    twilio_account_sid: Optional[str] = Field(default=None)
-    twilio_auth_token: Optional[str] = Field(default=None)
-    twilio_from_number: Optional[str] = Field(default=None)
-    twilio_sales_number: Optional[str] = Field(default=None)
+    twilio_account_sid: Optional[str] = Field(default=None, validation_alias="TWILIO_ACCOUNT_SID")
+    twilio_auth_token: Optional[str] = Field(default=None, validation_alias="TWILIO_AUTH_TOKEN")
+    twilio_from_number: Optional[str] = Field(default=None, validation_alias="TWILIO_FROM_NUMBER")
+    twilio_sales_number: Optional[str] = Field(default=None, validation_alias="TWILIO_SALES_NUMBER")
 
     # CRM (Optional)
-    crm_base_url: Optional[str] = Field(default=None)
-    crm_api_key: Optional[str] = Field(default=None)
-    crm_pipeline_id: Optional[str] = Field(default=None)
+    crm_base_url: Optional[str] = Field(default=None, validation_alias="CRM_BASE_URL")
+    crm_api_key: Optional[str] = Field(default=None, validation_alias="CRM_API_KEY")
+    crm_pipeline_id: Optional[str] = Field(default=None, validation_alias="CRM_PIPELINE_ID")
 
     # Rate Limiting
-    rate_limit_requests_per_minute: int = Field(default=30)
+    rate_limit_requests_per_minute: int = Field(default=30, validation_alias="RATE_LIMIT_REQUESTS_PER_MINUTE")
 
 
 @lru_cache
