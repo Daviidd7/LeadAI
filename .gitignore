@@ -1,3 +1,13 @@
+# Ignore local secret files
+secrets/
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+
+# Railway files
+.railway/
 __pycache__/
 *.py[cod]
 *.sqlite3

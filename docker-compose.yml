@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   web:
     build: .
@@ -10,6 +8,14 @@ services:
       - .env
     depends_on:
       - db
+    secrets:
+      - openai_api_key
+      - smtp_password
+      - twilio_auth_token
+      - crm_api_key
+      - secret_key
+      - admin_password
+      - db_password
 
   db:
     image: postgres:16
@@ -22,6 +28,22 @@ services:
       - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
+secrets:
+  openai_api_key:
+    file: ./secrets/openai_api_key
+  smtp_password:
+    file: ./secrets/smtp_password
+  twilio_auth_token:
+    file: ./secrets/twilio_auth_token
+  crm_api_key:
+    file: ./secrets/crm_api_key
+  secret_key:
+    file: ./secrets/secret_key
+  admin_password:
+    file: ./secrets/admin_password
+  db_password:
+    file: ./secrets/db_password
 
 volumes:
   db_data:
